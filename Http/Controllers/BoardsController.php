@@ -17,6 +17,7 @@ class BoardsController extends Controller{
 
     public function create()
     {
+
         return view('tasks::boards.create');
     }
 

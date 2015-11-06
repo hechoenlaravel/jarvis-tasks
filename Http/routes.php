@@ -2,6 +2,8 @@
 
 Route::group(['prefix' => 'tasks', 'namespace' => 'Modules\Tasks\Http\Controllers'], function()
 {
-	Route::get('/boards', ['as' => 'boards.index', 'uses' => 'BoardsController@index']);
-    Route::get('/boards/create', ['as' => 'boards.create', 'uses' => 'BoardsController@create']);
+	Route::resource('/boards', 'BoardsController');
+    Route::group(['prefix' => 'config', 'middleware' => ['acl:config-tasks']], function(){
+        Route::resource('flows', 'ConfigController');
+    });
 });

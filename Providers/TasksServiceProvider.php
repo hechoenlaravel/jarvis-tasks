@@ -101,10 +101,20 @@ class TasksServiceProvider extends ServiceProvider {
     {
         $menu = MenuPing::instance('sidebar');
         $menu->dropdown('Tareas', function($sub){
-            $sub->route('boards.index', 'Tableros', [], 1, ['active' => function(){
+            $sub->route('tasks.boards.index', 'Tableros', [], 1, ['active' => function(){
                 $request = app('Illuminate\Http\Request');
                 return $request->is('tasks/boards*');
             }]);
+            $sub->header('CONFIGURACIÓN');
+            $sub->route('tasks.config.flows.index', 'Flujos', [], 1, ['active' => function(){
+                $request = app('Illuminate\Http\Request');
+                return $request->is('tasks/config*');
+            }])->hideWhen(function(){
+                if(Auth::user()->ability('administrator', 'config-tasks')){
+                    return false;
+                }
+                return true;
+            });
         }, 3,['icon' => 'fa fa-tasks']);
     }
 

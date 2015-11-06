@@ -19,9 +19,21 @@
                         Crear tablero
                     </h3>
                 </div>
+                {!! Form::open(['route' => 'tasks.boards.store']) !!}
                 <div class="box-body">
-
+                    <div class="col-md-6">
+                        {!! Field::text('name', ['label' => 'Nombre del tablero']) !!}
+                        {!! Field::textarea('description', ['label' => 'Descripción del tablero']) !!}
+                    </div>
+                    <div class="col-md-6">
+                        {!! Field::select('flow_id', [], null, ['label' => 'Flujo para usar en el tablero', 'class' => 'select2']) !!}
+                        <small>Los flujos son un mecanismo para que las tareas sigan un proceso determinado, estos flujos se pueden administrar en la configuración del módulo</small>
+                    </div>
                 </div>
+                <div class="box-footer">
+                    {!! Form::submit('Crear tablero', ['class' => 'btn btn-primary']) !!}
+                </div>
+                {!! Form::close() !!}
             </div>
         </div>
     </div>

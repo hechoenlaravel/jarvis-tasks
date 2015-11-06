@@ -20,7 +20,7 @@
                     </h3>
                     <div class="box-tools pull-right">
                         @if(Auth::user()->can('create-boards'))
-                            <a href="{{route('boards.create')}}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Crear tablero</a>
+                            <a href="{{route('tasks.boards.create')}}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Crear tablero</a>
                         @endif
                     </div>
                 </div>
