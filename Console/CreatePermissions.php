@@ -2,6 +2,7 @@
 
 use Illuminate\Console\Command;
 use Modules\Users\Entities\Permission;
+use Modules\Users\Entities\Role;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
@@ -38,30 +39,32 @@ class CreatePermissions extends Command {
 	 */
 	public function fire()
 	{
-		Permission::create([
+		$create = Permission::create([
             'name' => 'create-tasks',
             'display_name' => 'Crear tareas',
             'description' => 'Permite crear tareas en el sistema',
             'module' => 'tasks'
         ]);
-        Permission::create([
+        $assign = Permission::create([
             'name' => 'assign-tasks',
             'display_name' => 'Asignar tareas a usuarios',
             'description' => 'Permite asignar tareas a usuarios en el sistema',
             'module' => 'tasks'
         ]);
-        Permission::create([
+        $config = Permission::create([
             'name' => 'config-tasks',
             'display_name' => 'Administrar módulo de tareas',
             'description' => 'Permite que el usuario tenga acceso a la configuracion de el módulo de tareas',
             'module' => 'tasks'
         ]);
-        Permission::create([
+        $createBoards = Permission::create([
             'name' => 'create-boards',
             'display_name' => 'Crear tableros',
             'description' => 'Permite crear tableros en el sistema',
             'module' => 'tasks'
         ]);
+        $admin = Role::where('name', 'administrador-del-sistema')->first();
+        $admin->attachPermissions([$create, $assign, $config, $createBoards]);
 	}
 
 	/**
