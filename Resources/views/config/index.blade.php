@@ -19,7 +19,7 @@
                         Flujos para los tableros
                     </h3>
                     <div class="box-tools pull-right">
-                        <a href="{{route('tasks.config.flows.create')}}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Crear tablero</a>
+                        <a href="{{route('tasks.config.flows.create')}}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Crear flujo</a>
                     </div>
                 </div>
                 <div class="box-body">
