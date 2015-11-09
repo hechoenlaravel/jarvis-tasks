@@ -3,17 +3,21 @@
 namespace Modules\Tasks\Http\Controllers;
 
 use Datatables;
+use SweetAlert;
 use Illuminate\Http\Request;
 use yajra\Datatables\Html\Builder;
 use Pingpong\Modules\Routing\Controller;
 use Hechoenlaravel\JarvisFoundation\Flows\Flow;
 use Hechoenlaravel\JarvisFoundation\Flows\UI\FlowForm;
+use Hechoenlaravel\JarvisFoundation\Traits\FlowManager;
 
 /**
  * Class ConfigController
  * @package Modules\Tasks\Http\Controllers
  */
 class ConfigController extends Controller{
+
+    use FlowManager;
 
     /**
      * Datatables Html Builder
@@ -67,9 +71,18 @@ class ConfigController extends Controller{
         return view('tasks::config.form', compact('view'));
     }
 
+    public function destroy($id)
+    {
+        $this->deleteFlow(Flow::findOrFail($id));
+        SweetAlert::success('Se ha eliminado el Flujo');
+        return redirect()->back();
+    }
+
     protected function getButtons($flow)
     {
-        return '<a href="'.route('tasks.config.flows.edit', ['id' => $flow->id]).'" data-toggle="tooltip" data-placement="top" title="Editar flujo" class="btn btn-sm btn-default"><i class="fa fa-pencil"></i></a>';
+        $button = '<a href="'.route('tasks.config.flows.edit', ['id' => $flow->id]).'" data-toggle="tooltip" data-placement="top" title="Editar flujo" class="btn btn-sm btn-default"><i class="fa fa-pencil"></i></a>&nbsp';
+        $button .= '<a href="'.route('tasks.config.flows.destroy', ['id' => $flow->id]).'" data-toggle="tooltip" data-placement="top" title="Eliminar flujo" class="btn btn-sm btn-danger confirm-delete"><i class="fa fa-times"></i></a>';
+        return $button;
     }
 
 }
