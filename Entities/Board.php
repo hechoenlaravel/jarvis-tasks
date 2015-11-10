@@ -2,10 +2,13 @@
 
 namespace Modules\Tasks\Entities;
 
+use League\Fractal\Manager;
 use Modules\Users\Entities\User;
+use League\Fractal\Resource\Item;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Hechoenlaravel\JarvisFoundation\Flows\Flow;
+use Modules\Tasks\Transformers\BoardTransformer;
 
 /**
  * Class Board
@@ -79,6 +82,17 @@ class Board extends Model{
         return $query->whereHas('users', function($q) use($user){
             $q->where('user_id', $user->id);
         });
+    }
+
+    /**
+     * @param string $includes
+     * @return \League\Fractal\Scope
+     */
+    public function transformed($includes = "")
+    {
+        $manager = new Manager;
+        $resource = new Item($this, new BoardTransformer());
+        return $manager->parseIncludes($includes)->createData($resource);
     }
 
 }

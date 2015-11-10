@@ -20,6 +20,7 @@ class CreateTasksTable extends Migration {
 			$table->string('name');
 			$table->text('description');
 			$table->date('due_date');
+            $table->integer('priority')->index();
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('app_users');

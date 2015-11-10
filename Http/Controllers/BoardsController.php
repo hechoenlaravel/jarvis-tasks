@@ -4,6 +4,7 @@ namespace Modules\Tasks\Http\Controllers;
 
 use Auth;
 use SweetAlert;
+use JavaScript;
 use Modules\Tasks\Entities\Board;
 use Pingpong\Modules\Routing\Controller;
 use Modules\Tasks\Http\Requests\BoardRequest;
@@ -58,6 +59,9 @@ class BoardsController extends Controller{
     {
         $board = Board::with(['users.user', 'flow', 'user'])->byUuid($uuid)->firstOrFail();
         $this->authorize('viewBoard', $board);
+        JavaScript::put([
+            'board' => $board->transformed('flow,user,users')->toArray()
+        ]);
         return view('tasks::boards.show')->with('board', $board);
     }
 

@@ -7,3 +7,16 @@ Route::group(['prefix' => 'tasks', 'namespace' => 'Modules\Tasks\Http\Controller
         Route::resource('flows', 'ConfigController');
     });
 });
+
+
+/** Module API Routes **/
+$api = app('Dingo\Api\Routing\Router');
+$api->version('v1', ['namespace' => 'Modules\Tasks\Http\Controllers'], function ($api) {
+    $api->group(['middleware' => ['api.auth'], 'providers' => ['inSession']], function($api) {
+        $api->group(['prefix' => 'tasks'], function($api) {
+            $api->group(['prefix' => 'boards'], function($api) {
+                $api->get('/{board}/tasks', 'TasksController@index');
+            });
+        });
+    });
+});
