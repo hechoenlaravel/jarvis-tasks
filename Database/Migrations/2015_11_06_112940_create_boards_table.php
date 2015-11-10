@@ -18,6 +18,7 @@ class CreateBoardsTable extends Migration {
             $table->integer('flow_id')->unsigned();
             $table->integer('user_id')->unsigned();
 			$table->string('name');
+            $table->string('uuid')->index();
 			$table->text('description');
             $table->timestamps();
             $table->softDeletes();

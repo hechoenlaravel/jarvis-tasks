@@ -45,18 +45,25 @@ class ConfigController extends Controller{
                 ->addColumn('actions', function ($flow) {
                     return $this->getButtons($flow);
                 })
+                ->addColumn('activePresented', function ($flow) {
+                    return $flow->activePresented;
+                })
                 ->make(true);
         }
         $html = $this->htmlBuilder
             ->addColumn(['data' => 'id', 'name' => 'id', 'title' => 'Id'])
             ->addColumn(['data' => 'name', 'name' => 'name', 'title' => 'Nombre'])
             ->addColumn(['data' => 'description', 'name' => 'description', 'title' => 'Descripción'])
-            ->addColumn(['data' => 'active', 'name' => 'active', 'title' => 'Activo'])
+            ->addColumn(['data' => 'activePresented', 'name' => 'activePresented', 'title' => 'Activo'])
             ->addColumn(['data' => 'actions', 'name' => 'actions', 'title' => '']);
 
         return view('tasks::config.index', compact('html'));
     }
 
+    /**
+     * @param FlowForm $form
+     * @return \BladeView|bool|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create(FlowForm $form)
     {
         $form->setModule('tasks')->setReturnBaseUrl('tasks/config/flows');
@@ -64,6 +71,11 @@ class ConfigController extends Controller{
         return view('tasks::config.form', compact('view'));
     }
 
+    /**
+     * @param FlowForm $form
+     * @param $id
+     * @return \BladeView|bool|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function edit(FlowForm $form, $id)
     {
         $form->setModule('tasks')->setFlow($id)->setReturnBaseUrl('config/flows');
@@ -71,6 +83,10 @@ class ConfigController extends Controller{
         return view('tasks::config.form', compact('view'));
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy($id)
     {
         $this->deleteFlow(Flow::findOrFail($id));
@@ -78,6 +94,10 @@ class ConfigController extends Controller{
         return redirect()->back();
     }
 
+    /**
+     * @param $flow
+     * @return string
+     */
     protected function getButtons($flow)
     {
         $button = '<a href="'.route('tasks.config.flows.edit', ['id' => $flow->id]).'" data-toggle="tooltip" data-placement="top" title="Editar flujo" class="btn btn-sm btn-default"><i class="fa fa-pencil"></i></a>&nbsp';

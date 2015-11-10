@@ -4,6 +4,7 @@ namespace Modules\Tasks\Entities;
 
 use Modules\Users\Entities\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Hechoenlaravel\JarvisFoundation\Flows\Flow;
 
 /**
@@ -11,6 +12,8 @@ use Hechoenlaravel\JarvisFoundation\Flows\Flow;
  * @package Modules\Tasks\Entities
  */
 class Board extends Model{
+
+    use SoftDeletes;
 
     /**
      * @var string
@@ -20,7 +23,7 @@ class Board extends Model{
     /**
      * @var array
      */
-    protected $fillable = ['flow_id', 'user_id', 'name', 'description'];
+    protected $fillable = ['flow_id', 'user_id', 'name', 'uuid', 'description'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -54,6 +57,16 @@ class Board extends Model{
     public function scopeByUser($query, User $user)
     {
         return $query->where('user_id', $user->id);
+    }
+
+    /**
+     * @param $query
+     * @param $uuid
+     * @return mixed
+     */
+    public function scopeByUuid($query, $uuid)
+    {
+        return $query->where('uuid', $uuid);
     }
 
     /**

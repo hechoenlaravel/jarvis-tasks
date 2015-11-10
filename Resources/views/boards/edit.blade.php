@@ -6,7 +6,7 @@
 
 @endsection
 @section('content-header')
-    <h2><i class="fa fa-columns"></i> Crear tablero</h2>
+    <h2><i class="fa fa-columns"></i> Editar tablero <small>{{$board->name}}</small></h2>
     <p>Ingresa la información necesaria para crear un tablero.</p>
 @endsection
 
@@ -16,10 +16,10 @@
             <div class="box box-info">
                 <div class="box-header with-border">
                     <h3 class="box-title">
-                        Crear tablero
+                        Editar tablero
                     </h3>
                 </div>
-                {!! Form::open(['route' => 'tasks.boards.store']) !!}
+                {!! Form::model($board, ['route' => ['tasks.boards.update', $board->uuid], 'method' => 'PUT']) !!}
                 <div class="box-body">
                     <div class="col-md-6">
                         {!! Field::text('name', ['label' => 'Nombre del tablero']) !!}
@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="box-footer">
-                    {!! Form::submit('Crear tablero', ['class' => 'btn btn-primary']) !!}
+                    {!! Form::submit('Actualizar tablero', ['class' => 'btn btn-primary']) !!}
                 </div>
                 {!! Form::close() !!}
             </div>

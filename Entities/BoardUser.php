@@ -2,6 +2,7 @@
 
 namespace Modules\Tasks\Entities;
 
+use Modules\Users\Entities\User;
 use Illuminate\Database\Eloquent\Model;
 
 class BoardUser extends Model{
@@ -10,6 +11,9 @@ class BoardUser extends Model{
 
     protected $fillable = ['board_id', 'user_id', 'can_assign'];
 
-
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
 }
