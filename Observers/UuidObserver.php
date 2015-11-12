@@ -2,14 +2,13 @@
 
 namespace Modules\Tasks\Observers;
 
-
 use Webpatser\Uuid\Uuid;
 
 /**
- * Class BoardObserver
+ * Class UuidObserver
  * @package Modules\Tasks\Observers
  */
-class BoardObserver
+class UuidObserver
 {
 
     /**

@@ -4,7 +4,8 @@ use Auth;
 use MenuPing;
 use Modules\Tasks\Entities\Board;
 use Illuminate\Support\ServiceProvider;
-use Modules\Tasks\Observers\BoardObserver;
+use Modules\Tasks\Entities\Task;
+use Modules\Tasks\Observers\UuidObserver;
 
 class TasksServiceProvider extends ServiceProvider
 {
@@ -39,7 +40,8 @@ class TasksServiceProvider extends ServiceProvider
         $this->commands([
             \Modules\Tasks\Console\CreatePermissions::class
         ]);
-        Board::observe(new BoardObserver());
+        Board::observe(new UuidObserver());
+        Task::observe(new UuidObserver());
     }
 
     /**

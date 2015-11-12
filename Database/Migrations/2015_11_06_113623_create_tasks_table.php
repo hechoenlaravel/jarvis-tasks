@@ -17,14 +17,18 @@ class CreateTasksTable extends Migration {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('board_id')->unsigned();
+            $table->integer('step_id')->unsigned();
+            $table->string('uuid')->index();
 			$table->string('name');
 			$table->text('description');
-			$table->date('due_date');
+			$table->date('due_date')->nullable()->index();
             $table->integer('priority')->index();
+            $table->boolean('closed')->default(0)->index();
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('app_users');
             $table->foreign('board_id')->references('id')->on('tasks_boards');
+            $table->foreign('step_id')->references('id')->on('fl_flows_steps');
         });
         Schema::create('tasks_tasks_users', function(Blueprint $table)
         {

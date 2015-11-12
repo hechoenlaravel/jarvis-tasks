@@ -57,12 +57,14 @@ class BoardsController extends Controller{
      */
     public function show($uuid)
     {
-        $board = Board::with(['users.user', 'flow', 'user'])->byUuid($uuid)->firstOrFail();
+        $board = Board::with(['users.user', 'flow.steps', 'user'])->byUuid($uuid)->firstOrFail();
         $this->authorize('viewBoard', $board);
+        $users = $board->users->pluck('user.name', 'user.id')->toArray();
+        $users[$board->user->id] = $board->user->name;
         JavaScript::put([
-            'board' => $board->transformed('flow,user,users')->toArray()
+            'board' => $board->transformed('flow.steps,user,users')->toArray()
         ]);
-        return view('tasks::boards.show')->with('board', $board);
+        return view('tasks::boards.show')->with('board', $board)->with('usersForSelect', $users);
     }
 
     /**

@@ -1,8 +1,8 @@
 <?php
 
-Route::group(['prefix' => 'tasks', 'namespace' => 'Modules\Tasks\Http\Controllers', 'middleware' => ['auth']], function()
-{
+Route::group(['prefix' => 'tasks', 'namespace' => 'Modules\Tasks\Http\Controllers', 'middleware' => ['auth']], function() {
 	Route::resource('/boards', 'BoardsController');
+    Route::get('/{id}', ['as' => 'tasks.tasks.show', 'uses' => 'TasksController@show']);
     Route::group(['prefix' => 'config', 'middleware' => ['acl:config-tasks']], function(){
         Route::resource('flows', 'ConfigController');
     });
@@ -15,7 +15,7 @@ $api->version('v1', ['namespace' => 'Modules\Tasks\Http\Controllers'], function 
     $api->group(['middleware' => ['api.auth'], 'providers' => ['inSession']], function($api) {
         $api->group(['prefix' => 'tasks'], function($api) {
             $api->group(['prefix' => 'boards'], function($api) {
-                $api->get('/{board}/tasks', 'TasksController@index');
+                $api->post('/{board}/tasks', 'TasksController@index');
             });
         });
     });
