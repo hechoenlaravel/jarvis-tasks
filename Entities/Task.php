@@ -85,7 +85,7 @@ class Task extends Model{
      * @param $taskUuid
      * @return mixed
      */
-    public function byUuid($query, $taskUuid)
+    public function scopeByUuid($query, $taskUuid)
     {
         return $query->where('uuid', $taskUuid);
     }
