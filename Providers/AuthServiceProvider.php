@@ -2,7 +2,9 @@
 
 
 use Modules\Tasks\Entities\Board;
+use Modules\Tasks\Entities\Task;
 use Modules\Tasks\Policies\BoardPolicy;
+use Modules\Tasks\Policies\TaskPolicy;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -22,7 +24,8 @@ class AuthServiceProvider extends ServiceProvider {
      * @var array
      */
     protected $policies = [
-        Board::class => BoardPolicy::class
+        Board::class => BoardPolicy::class,
+		Task::class => TaskPolicy::class
     ];
 
     /**

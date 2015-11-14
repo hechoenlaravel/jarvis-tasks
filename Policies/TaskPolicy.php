@@ -26,7 +26,7 @@ class TaskPolicy
             return true;
         }
         return $task->whereHas('users', function($q) use ($user){
-            $q->where('id', $user->id);
+            $q->where('user_id', $user->id);
         })->count() > 0;
     }
 

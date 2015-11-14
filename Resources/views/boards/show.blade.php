@@ -76,7 +76,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-4">
-                                {!! Field::select('step', $board->flow->steps->pluck('name', 'id')->toArray() ,null , ['ng-model' => 'tasksParameters.step', 'label' => 'Paso Actual', 'class' => 'select2', 'multiple' => 'multiple']) !!}
+                                {!! Field::select('step', $board->flow->steps->pluck('name', 'id')->toArray() ,null , ['ng-model' => 'tasksParameters.step', 'label' => 'Paso del flujo actual', 'class' => 'select2', 'multiple' => 'multiple']) !!}
                             </div>
                             <div class="col-md-4">
                                 {!! Field::text('created', null , ['ng-model' => 'tasksParameters.created', 'label' => 'Fecha de creación', 'class' => 'daterange-left']) !!}
@@ -126,9 +126,8 @@
                                     <td>@{{ task.step.data.name }}</td>
                                     <td>@{{ task.due_date.formatted }}</td>
                                     <td>
-                                        <span>@{{task.user.data.name}}</span>
                                         <span ng-repeat="user in task.users.data">
-                                            <br />@{{user.name}}
+                                            @{{user.name}}<br />
                                         </span>
                                     </td>
                                     <td>

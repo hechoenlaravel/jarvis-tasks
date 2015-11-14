@@ -2,18 +2,16 @@
 
 namespace Modules\Tasks\Entities;
 
+use Carbon\Carbon;
 use Modules\Users\Entities\User;
 use Illuminate\Database\Eloquent\Model;
 use Hechoenlaravel\JarvisFoundation\Flows\Step;
-use Hechoenlaravel\JarvisFoundation\Support\SearchableTrait;
 
 /**
  * Class Task
  * @package Modules\Tasks\Entities
  */
 class Task extends Model{
-
-    use SearchableTrait;
 
     /**
      * @var string
@@ -90,6 +88,78 @@ class Task extends Model{
         return $query->where('uuid', $taskUuid);
     }
 
+    /**
+     * Scope for Due Date filter
+     * @param $query
+     * @param $dueDate
+     * @return mixed
+     */
+    public function scopeDueDate($query, $dueDate)
+    {
+        $dates = explode(' - ', $dueDate);
+        if(isset($dates[0]) && isset($dates[1]))
+        {
+            return $query->where('due_date', '>=', Carbon::createFromTimestamp(strtotime($dates[0]))->format('Y-m-d'))->where('due_date', '<=', Carbon::createFromTimestamp(strtotime($dates[1]))->format('Y-m-d'));
+        }
+    }
+
+    /**
+     * Filter by name
+     * @param $query
+     * @param $name
+     */
+    public function scopeByName($query, $name)
+    {
+        return $query->where('name', 'LIKE', '%'.$name.'%');
+    }
+
+    /**
+     * Filter by priority
+     * @param $query
+     * @param $priority
+     */
+    public function scopeByPriority($query, $priority)
+    {
+        return $query->where('priority', $priority);
+    }
+
+    /**
+     * Filter by Scope
+     * @param $query
+     * @param $step
+     * @return mixed
+     */
+    public function scopeByStep($query, $step)
+    {
+        return $query->whereIn('step_id', $step);
+    }
+
+    /**
+     * Scope by created Date
+     * @param $query
+     * @param $created
+     * @return mixed
+     */
+    public function scopeByCreatedDate($query, $created)
+    {
+        $dates = explode(' - ', $created);
+        if(isset($dates[0]) && isset($dates[1]))
+        {
+            return $query->where('created_at', '>=', Carbon::createFromTimestamp(strtotime($dates[0]))->format('Y-m-d'))->where('created_at', '<=', Carbon::createFromTimestamp(strtotime($dates[1]))->format('Y-m-d'));
+        }
+    }
+
+    /**
+     * @param $query
+     * @param $users
+     * @return mixed
+     */
+    public function scopeByUsers($query, $users)
+    {
+        return $query->whereHas('users', function($q) use($users){
+            $q->whereIn('user_id', $users);
+        });
+    }
 
     /**
      * Get the priority text
