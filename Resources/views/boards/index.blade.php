@@ -51,25 +51,25 @@
                     <h3 class="box-title">
                         Tableros en los que participo
                     </h3>
-                    @foreach($boardsIamIn as $board)
-                        <ul class="list-group box-boby">
-                            <li class="list-group-item">
-                                <div class="pull-right">
-                                    <a href="{{route('tasks.boards.show', [$board->uuid])}}" class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Ingresar al tablero"><i class="fa fa-share"></i></a>
-                                </div>
-                                <strong>{{$board->name}}</strong>
-                                <p>{{$board->description}}</p>
-                            </li>
-                        </ul>
-                    @endforeach
                 </div>
+                @foreach($boardsIamIn as $board)
+                    <ul class="list-group box-boby">
+                        <li class="list-group-item">
+                            <div class="pull-right">
+                                <a href="{{route('tasks.boards.show', [$board->uuid])}}" class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Ingresar al tablero"><i class="fa fa-share"></i></a>
+                            </div>
+                            <strong>{{$board->name}}</strong>
+                            <p>{{$board->description}}</p>
+                        </li>
+                    </ul>
+                @endforeach
+                @if($boardsIamIn->count() === 0)
                 <div class="box-body">
-                    @if($boardsIamIn->count() === 0)
-                        <div class="alert alert-info">
-                            <i class="fa fa-info"></i> No tienes tableros compartidos.
-                        </div>
-                    @endif
+                    <div class="alert alert-info">
+                        <i class="fa fa-info"></i> No tienes tableros compartidos.
+                    </div>
                 </div>
+                @endif
             </div>
         </div>
     </div>

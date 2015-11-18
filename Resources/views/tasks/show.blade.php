@@ -15,14 +15,19 @@
             <div class="box box-info">
                 <div class="box-header with-border">
                     <h3 class="box-title">
-
+                        Detalle de la tarea
                     </h3>
+                    <div class="box-tools">
+                        @foreach($task->step->transitions as $transition)
+                            <button class="btn btn-sm btn-default"><i class="fa fa-arrow-right"></i> {{$transition->to->name}}</button>
+                        @endforeach
+                    </div>
                 </div>
                 <div class="box-body">
-
+                    <strong>Descripción: </strong>{{$task->description}}<br />
+                    <strong>Paso actual: </strong>{{$task->step->name}}
                 </div>
                 <div class="box-footer">
-
                 </div>
             </div>
         </div>
