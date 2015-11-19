@@ -1,6 +1,6 @@
 @extends('layouts.withsidebar')
 @section('pageTitle')
-    {{isset($pageTitle) ? $pageTitle : "Configuración de usuarios"}}
+    {{isset($pageTitle) ? $pageTitle : "Configuración de tableros"}}
 @endsection
 @section('styles')
 

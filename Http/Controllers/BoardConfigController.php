@@ -10,7 +10,9 @@ class BoardConfigController extends Controller {
 	
 	public function index()
 	{
-		$entity = EntityModel::where('slug', 'boards')->where('namespace', 'tasks')->firstOrFail();
+		$entity = EntityModel::where('slug', 'boards')
+            ->where('namespace', 'tasks')
+            ->firstOrFail();
 		JavaScript::put([
 				'entity_id' => $entity->id
 		]);
@@ -19,7 +21,9 @@ class BoardConfigController extends Controller {
 
     public function create()
     {
-        $entity = EntityModel::where('slug', 'boards')->where('namespace', 'tasks')->firstOrFail();
+        $entity = EntityModel::where('slug', 'boards')
+            ->where('namespace', 'tasks')
+            ->firstOrFail();
         $builder = new FormBuilder($entity);
         $builder->setReturnUrl(route('tasks.config.boards.index'));
         JavaScript::put([
@@ -31,7 +35,7 @@ class BoardConfigController extends Controller {
 
     /**
      * Edit a field for the Board
-     * @param $id
+     * @param int $id ID of the field
      * @return $this
      */
     public function edit($id)
