@@ -38,7 +38,8 @@ class TasksServiceProvider extends ServiceProvider
     public function register()
     {
         $this->commands([
-            \Modules\Tasks\Console\CreatePermissions::class
+            \Modules\Tasks\Console\CreatePermissions::class,
+            \Modules\Tasks\Console\GenerateTasksEntities::class,
         ]);
         Board::observe(new UuidObserver());
         Task::observe(new UuidObserver());
@@ -116,7 +117,18 @@ class TasksServiceProvider extends ServiceProvider
             $sub->route('tasks.config.flows.index', 'Configuración de flujos', [], 1, [
                 'active' => function () {
                     $request = app('Illuminate\Http\Request');
-                    return $request->is('tasks/config*');
+                    return $request->is('tasks/config/flows*');
+                }
+            ])->hideWhen(function () {
+                if (Auth::user()->can('config-tasks')) {
+                    return false;
+                }
+                return true;
+            });
+            $sub->route('tasks.config.boards.index', 'Configuración de tableros', [], 2, [
+                'active' => function () {
+                    $request = app('Illuminate\Http\Request');
+                    return $request->is('tasks/config/boards*');
                 }
             ])->hideWhen(function () {
                 if (Auth::user()->can('config-tasks')) {

@@ -2,14 +2,18 @@
 
 namespace Modules\Tasks\Http\Controllers;
 
+use DB;
 use Auth;
+use Hechoenlaravel\JarvisFoundation\Exceptions\EntryValidationException;
 use SweetAlert;
 use JavaScript;
 use Modules\Tasks\Entities\Board;
 use Pingpong\Modules\Routing\Controller;
 use Modules\Tasks\Http\Requests\BoardRequest;
 use Hechoenlaravel\JarvisFoundation\Flows\Flow;
+use Hechoenlaravel\JarvisFoundation\Traits\EntryManager;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Hechoenlaravel\JarvisFoundation\UI\Field\EntityFieldsFormBuilder;
 
 /**
  * Class BoardsController
@@ -17,7 +21,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
  */
 class BoardsController extends Controller{
 
-    use AuthorizesRequests;
+    use AuthorizesRequests, EntryManager;
 
     /**
      * @return \BladeView|bool|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -32,22 +36,34 @@ class BoardsController extends Controller{
     /**
      * @return $this
      */
-    public function create()
+    public function create(Board $entity)
     {
         $flows = Flow::byModule('tasks')->get()->pluck('name', 'id')->toArray();
-        return view('tasks::boards.create')->with('flows', $flows);
+        $builder = new EntityFieldsFormBuilder($entity->getEntity());
+        return view('tasks::boards.create')->with('flows', $flows)
+            ->with('boardFields', $builder->render());
     }
 
     /**
      * @param BoardRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(BoardRequest $request)
+    public function store(BoardRequest $request, Board $entity)
     {
-        $input = $request->all();
-        $input['user_id'] = Auth::user()->id;
-        $board = Board::create($input);
-        SweetAlert::success('Se ha creado el tablero! ahora agrega tareas y personas para colaborar!');
+        DB::beginTransaction();
+        try {
+            $input = $request->all();
+            $input['user_id'] = Auth::user()->id;
+            $board = Board::create($input);
+            $this->updateEntry($entity->getEntity()->id, ['input' => $request->all()]);
+            DB::commit();
+            SweetAlert::success('Se ha creado el tablero! ahora agrega tareas y personas para colaborar!');
+        }catch (EntryValidationException $e)
+        {
+            DB::rollBack();
+            SweetAlert::error('Ha ocurrido un problema de validación, verifica los campos adicionales del tablero!');
+            return back()->withInput($request->all())->withErrors($e->getErrors());
+        }
         return redirect()->route('tasks.boards.show', $board->uuid);
     }
 
@@ -71,14 +87,17 @@ class BoardsController extends Controller{
      * @param $uuid
      * @return mixed
      */
-    public function edit($uuid)
+    public function edit(Board $entity, $uuid)
     {
         $board = Board::byUuid($uuid)->firstOrFail();
         $this->authorize('editBoard', $board);
         $flows = Flow::byModule('tasks')->get()->pluck('name', 'id')->toArray();
+        $builder = new EntityFieldsFormBuilder($entity->getEntity());
+        $builder->setRowId($board->id);
         return view('tasks::boards.edit')
             ->with('flows', $flows)
-            ->with('board', $board);
+            ->with('board', $board)
+            ->with('boardFields', $builder->render());
     }
 
     /**
@@ -90,9 +109,19 @@ class BoardsController extends Controller{
     {
         $board = Board::byUuid($uuid)->firstOrFail();
         $this->authorize('editBoard', $board);
-        $board->fill($request->all());
-        $board->save();
-        SweetAlert::success('Se ha actualizado el tablero!');
+        DB::beginTransaction();
+        try {
+            $board->fill($request->all());
+            $board->save();
+            $this->updateEntry($board->getEntity()->id, $board->id, ['input' => $request->all()]);
+            DB::commit();
+            SweetAlert::success('Se ha actualizado el tablero!');
+        }catch (EntryValidationException $e)
+        {
+            DB::rollBack();
+            SweetAlert::error('Ha ocurrido un problema de validación, verifica los campos adicionales del tablero!');
+            return back()->withInput($request->all())->withErrors($e->getErrors());
+        }
         return redirect()->back();
     }
 

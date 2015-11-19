@@ -2,6 +2,7 @@
 
 namespace Modules\Tasks\Entities;
 
+use Hechoenlaravel\JarvisFoundation\EntityGenerator\EntityModel;
 use League\Fractal\Manager;
 use Modules\Users\Entities\User;
 use League\Fractal\Resource\Item;
@@ -93,6 +94,11 @@ class Board extends Model{
         $manager = new Manager;
         $resource = new Item($this, new BoardTransformer());
         return $manager->parseIncludes($includes)->createData($resource);
+    }
+
+    public function getEntity()
+    {
+        return EntityModel::where('slug', 'boards')->where('namespace', 'tasks')->first();
     }
 
 }
