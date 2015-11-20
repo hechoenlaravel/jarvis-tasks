@@ -4,7 +4,6 @@ namespace Modules\Tasks\Http\Controllers;
 
 use DB;
 use Auth;
-use Hechoenlaravel\JarvisFoundation\Exceptions\EntryValidationException;
 use SweetAlert;
 use JavaScript;
 use Modules\Tasks\Entities\Board;
@@ -14,6 +13,7 @@ use Hechoenlaravel\JarvisFoundation\Flows\Flow;
 use Hechoenlaravel\JarvisFoundation\Traits\EntryManager;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Hechoenlaravel\JarvisFoundation\UI\Field\EntityFieldsFormBuilder;
+use Hechoenlaravel\JarvisFoundation\Exceptions\EntryValidationException;
 
 /**
  * Class BoardsController
