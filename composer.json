@@ -1,6 +1,7 @@
 {
 	"name": "hechoenlaravel/tasks",
 	"description": "",
+	"type": "jarvis-platform-module",
 	"authors": [
 		{
 			"name": "Jose Fonseca",
