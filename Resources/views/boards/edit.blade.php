@@ -13,13 +13,11 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-info">
-                <div class="box-header">
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true"><i class="fa fa-table"></i> Información básica</a></li>
-                        <li><a href="#tab_2" data-toggle="tab" aria-expanded="false"><i class="fa fa-table"></i> Campos adicionales</a></li>
-                    </ul>
-                </div>
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true"><i class="fa fa-table"></i> Información básica</a></li>
+                    <li><a href="#tab_2" data-toggle="tab" aria-expanded="false"><i class="fa fa-table"></i> Campos adicionales</a></li>
+                </ul>
                 {!! Form::model($board, ['route' => ['tasks.boards.update', $board->uuid], 'method' => 'PUT']) !!}
                 <div class="box-body">
                     <div class="tab-content">

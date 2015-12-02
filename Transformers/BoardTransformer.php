@@ -5,6 +5,7 @@ namespace Modules\Tasks\Transformers;
 use Modules\Tasks\Entities\Board;
 use League\Fractal\TransformerAbstract;
 use Modules\Users\Transformers\UserTransformer;
+use Hechoenlaravel\JarvisFoundation\UI\Field\EntityFieldPresenter;
 use Hechoenlaravel\JarvisFoundation\Flows\Transformers\FlowTransformer;
 
 /**
@@ -30,7 +31,8 @@ class BoardTransformer extends TransformerAbstract{
             'name' => $board->name,
             'description' => $board->description,
             'created' => $board->created_at,
-            'updated' => $board->update_at
+            'updated' => $board->update_at,
+            'additional_fields' => $this->getAdditionalFields($board)
         ];
     }
 
@@ -63,6 +65,32 @@ class BoardTransformer extends TransformerAbstract{
             return null;
         }
         return $this->collection($board->users, new BoardUserTransformer());
+    }
+
+    /**
+     * @param Board $board
+     * @return array
+     */
+    protected function getAdditionalFields(Board $board)
+    {
+        $additionalFields = new EntityFieldPresenter($board->getEntity());
+        $additionalFields->setRowId($board->id);
+        $additional = [];
+        foreach ($additionalFields->getFields() as $field) {
+            if (method_exists($field, 'presentJson')) {
+                $additional[] = [
+                    'name' => $field->fieldName,
+                    'value' => $field->presentJson()
+                ];
+            } else {
+                $additional[] = [
+                    'name' => $field->fieldName,
+                    'value' => $field->presentFront()
+                ];
+            }
+        }
+
+        return $additional;
     }
 
 }

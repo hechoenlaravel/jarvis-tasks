@@ -55,7 +55,7 @@ class BoardsController extends Controller{
             $input = $request->all();
             $input['user_id'] = Auth::user()->id;
             $board = Board::create($input);
-            $this->updateEntry($entity->getEntity()->id, ['input' => $request->all()]);
+            $this->updateEntry($entity->getEntity()->id, $board->id, ['input' => $request->all()]);
             DB::commit();
             SweetAlert::success('Se ha creado el tablero! ahora agrega tareas y personas para colaborar!');
         }catch (EntryValidationException $e)

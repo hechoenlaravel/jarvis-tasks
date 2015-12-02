@@ -6,7 +6,7 @@
 
 @endsection
 @section('content')
-    <div ng-controller="BoardController" ng-init="getTasks()">
+    <div ng-controller="BoardController" ng-init="getTasks()" ng-cloak>
         <div class="row">
             <div class="col-md-6">
                 <div class="box box-info">
@@ -22,6 +22,9 @@
                         <strong>Descripción del tablero:</strong> @{{board.data.description}} <br />
                         <strong>Flujo:</strong> @{{board.data.flow.data.name}}<br />
                         <strong>Descripción del flujo:</strong> @{{board.data.flow.data.description}}<br />
+                        <div ng-repeat="field in board.data.additional_fields">
+                            <strong>@{{ field.name }}:</strong> @{{field.value}}<br />
+                        </div>
                     </div>
                     <div class="box-footer">
                         @can('editBoard', $board)
