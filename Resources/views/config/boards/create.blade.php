@@ -1,4 +1,4 @@
-@extends('layouts.withsidebar')
+@extends('jplatformui::layouts.withsidebar')
 @section('pageTitle')
     {{isset($pageTitle) ? $pageTitle : "Agregar campo al tablero"}}
 @endsection
