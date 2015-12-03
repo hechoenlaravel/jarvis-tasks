@@ -64,7 +64,7 @@ class BoardsController extends Controller{
             SweetAlert::error('Ha ocurrido un problema de validación, verifica los campos adicionales del tablero!');
             return back()->withInput($request->all())->withErrors($e->getErrors());
         }
-        return redirect()->route('tasks.boards.show', $board->uuid);
+        return redirect()->route('boards.show', $board->uuid);
     }
 
     /**

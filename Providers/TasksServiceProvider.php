@@ -108,16 +108,16 @@ class TasksServiceProvider extends ServiceProvider
     {
         $menu = MenuPing::instance('sidebar');
         $menu->dropdown('Tareas', function ($sub) {
-            $sub->route('tasks.boards.index', 'Tableros', [], 1, [
+            $sub->route('boards.index', 'Tableros', [], 1, [
                 'active' => function () {
                     $request = app('Illuminate\Http\Request');
-                    return $request->is('tasks/boards*');
+                    return $request->is('boards*');
                 }
             ]);
-            $sub->route('tasks.config.flows.index', 'Configuración de flujos', [], 1, [
+            $sub->route('tasks.flows.index', 'Configuración de flujos', [], 1, [
                 'active' => function () {
                     $request = app('Illuminate\Http\Request');
-                    return $request->is('tasks/config/flows*');
+                    return $request->is('tasks/flows*');
                 }
             ])->hideWhen(function () {
                 if (Auth::user()->can('config-tasks')) {
@@ -125,10 +125,21 @@ class TasksServiceProvider extends ServiceProvider
                 }
                 return true;
             });
-            $sub->route('tasks.config.boards.index', 'Configuración de tableros', [], 2, [
+            $sub->route('boards.config.index', 'Configuración de tableros', [], 2, [
                 'active' => function () {
                     $request = app('Illuminate\Http\Request');
-                    return $request->is('tasks/config/boards*');
+                    return $request->is('boards/config/*');
+                }
+            ])->hideWhen(function () {
+                if (Auth::user()->can('config-tasks')) {
+                    return false;
+                }
+                return true;
+            });
+            $sub->route('tasks.config.index', 'Configuración de tareas', [], 2, [
+                'active' => function () {
+                    $request = app('Illuminate\Http\Request');
+                    return $request->is('tasks/config/*');
                 }
             ])->hideWhen(function () {
                 if (Auth::user()->can('config-tasks')) {

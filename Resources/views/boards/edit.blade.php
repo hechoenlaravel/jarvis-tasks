@@ -18,7 +18,7 @@
                     <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true"><i class="fa fa-table"></i> Información básica</a></li>
                     <li><a href="#tab_2" data-toggle="tab" aria-expanded="false"><i class="fa fa-table"></i> Campos adicionales</a></li>
                 </ul>
-                {!! Form::model($board, ['route' => ['tasks.boards.update', $board->uuid], 'method' => 'PUT']) !!}
+                {!! Form::model($board, ['route' => ['boards.update', $board->uuid], 'method' => 'PUT']) !!}
                 <div class="box-body">
                     <div class="tab-content">
                         <div class="tab-pane active" id="tab_1">

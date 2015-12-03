@@ -66,7 +66,7 @@ class ConfigController extends Controller{
      */
     public function create(FlowForm $form)
     {
-        $form->setModule('tasks')->setReturnBaseUrl('tasks/config/flows');
+        $form->setModule('tasks')->setReturnBaseUrl('tasks/flows');
         $view = $form->render();
         return view('tasks::config.form', compact('view'));
     }
@@ -78,7 +78,7 @@ class ConfigController extends Controller{
      */
     public function edit(FlowForm $form, $id)
     {
-        $form->setModule('tasks')->setFlow($id)->setReturnBaseUrl('config/flows');
+        $form->setModule('tasks')->setFlow($id)->setReturnBaseUrl('flows');
         $view = $form->render();
         return view('tasks::config.form', compact('view'));
     }
@@ -100,8 +100,8 @@ class ConfigController extends Controller{
      */
     protected function getButtons($flow)
     {
-        $button = '<a href="'.route('tasks.config.flows.edit', ['id' => $flow->id]).'" data-toggle="tooltip" data-placement="top" title="Editar flujo" class="btn btn-sm btn-default"><i class="fa fa-pencil"></i></a>&nbsp';
-        $button .= '<a href="'.route('tasks.config.flows.destroy', ['id' => $flow->id]).'" data-toggle="tooltip" data-placement="top" title="Eliminar flujo" class="btn btn-sm btn-danger confirm-delete"><i class="fa fa-times"></i></a>';
+        $button = '<a href="'.route('tasks.flows.edit', ['id' => $flow->id]).'" data-toggle="tooltip" data-placement="top" title="Editar flujo" class="btn btn-sm btn-default"><i class="fa fa-pencil"></i></a>&nbsp';
+        $button .= '<a href="'.route('tasks.flows.destroy', ['id' => $flow->id]).'" data-toggle="tooltip" data-placement="top" title="Eliminar flujo" class="btn btn-sm btn-danger confirm-delete"><i class="fa fa-times"></i></a>';
         return $button;
     }
 

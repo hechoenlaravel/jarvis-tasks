@@ -1,11 +1,14 @@
 <?php
 
-Route::group(['prefix' => 'tasks', 'namespace' => 'Modules\Tasks\Http\Controllers', 'middleware' => ['auth']], function() {
+Route::group(['namespace' => 'Modules\Tasks\Http\Controllers', 'middleware' => ['auth']], function() {
+    Route::resource('boards/config', 'BoardConfigController');
     Route::resource('/boards', 'BoardsController');
     Route::resource('/boards/{board}/tasks', 'TasksController', ['exept' => 'index']);
-    Route::group(['prefix' => 'config', 'middleware' => ['acl:config-tasks']], function(){
-        Route::resource('flows', 'ConfigController');
-        Route::resource('boards', 'BoardConfigController');
+    Route::group(['prefix' => 'tasks'], function(){
+        Route::group(['middleware' => ['acl:config-tasks']], function(){
+            Route::resource('/config', 'TaskConfigController');
+            Route::resource('/flows', 'ConfigController');
+        });
     });
 });
 

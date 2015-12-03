@@ -18,7 +18,7 @@
                     <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true"><i class="fa fa-table"></i> Información básica</a></li>
                     <li><a href="#tab_2" data-toggle="tab" aria-expanded="false"><i class="fa fa-table"></i> Campos adicionales</a></li>
                 </ul>
-                {!! Form::open(['route' => 'tasks.boards.store']) !!}
+                {!! Form::open(['route' => 'boards.store']) !!}
                 <div class="box-body">
                     <div class="tab-content">
                         <div class="tab-pane active" id="tab_1">
@@ -33,7 +33,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane active" id="tab_2">
+                        <div class="tab-pane" id="tab_2">
                             <div class="row">
                                 <div class="col-md-6">
                                     {!! $boardFields !!}

@@ -19,7 +19,7 @@
                     </h3>
                     <div class="box-tools pull-right">
                         @if(Auth::user()->can('create-boards'))
-                            <a href="{{route('tasks.boards.create')}}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Crear tablero</a>
+                            <a href="{{route('boards.create')}}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Crear tablero</a>
                         @endif
                     </div>
                 </div>
@@ -34,9 +34,9 @@
                 @foreach($myBoards as $board)
                     <li class="list-group-item">
                         <div class="pull-right">
-                            <a href="{{route('tasks.boards.edit',[$board->uuid] )}}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Editar Tablero"><i class="fa fa-pencil"></i></a>
-                            <a href="{{route('tasks.boards.destroy',[$board->uuid] )}}" class="btn btn-sm btn-danger confirm-delete" data-toggle="tooltip" data-placement="top" title="Eliminar tablero"><i class="fa fa-trash"></i></a>
-                            <a href="{{route('tasks.boards.show', [$board->uuid])}}" class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Ingresar al tablero"><i class="fa fa-share"></i></a>
+                            <a href="{{route('boards.edit',[$board->uuid] )}}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Editar Tablero"><i class="fa fa-pencil"></i></a>
+                            <a href="{{route('boards.destroy',[$board->uuid] )}}" class="btn btn-sm btn-danger confirm-delete" data-toggle="tooltip" data-placement="top" title="Eliminar tablero"><i class="fa fa-trash"></i></a>
+                            <a href="{{route('boards.show', [$board->uuid])}}" class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Ingresar al tablero"><i class="fa fa-share"></i></a>
                         </div>
                         <strong>{{$board->name}}</strong>
                         <p>{{$board->description}}</p>
@@ -56,7 +56,7 @@
                     <ul class="list-group box-boby">
                         <li class="list-group-item">
                             <div class="pull-right">
-                                <a href="{{route('tasks.boards.show', [$board->uuid])}}" class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Ingresar al tablero"><i class="fa fa-share"></i></a>
+                                <a href="{{route('boards.show', [$board->uuid])}}" class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Ingresar al tablero"><i class="fa fa-share"></i></a>
                             </div>
                             <strong>{{$board->name}}</strong>
                             <p>{{$board->description}}</p>

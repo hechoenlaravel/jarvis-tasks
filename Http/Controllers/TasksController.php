@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Modules\Tasks\Entities\Task;
+use Modules\Tasks\Entities\Board;
 use Pingpong\Modules\Routing\Controller;
 use Modules\Tasks\Transformers\TaskTransformer;
 use Joselfonseca\LaravelApiTools\Traits\ResponderTrait;
@@ -40,6 +41,11 @@ class TasksController extends Controller {
         $task = $model->with(['user', 'step', 'users'])->ByUuid($taskId)->firstOrFail();
         $this->authorize('viewTask', $task);
         return view('tasks::tasks.show')->with('task', $task);
+    }
+
+    public function create(Board $boardModel, $board)
+    {
+        return view('tasks::tasks.create')->with('board', $boardModel->byUuid($board)->firstOrFail());
     }
 
     /**

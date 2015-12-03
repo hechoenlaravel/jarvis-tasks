@@ -15,7 +15,7 @@
                             Tablero <small>@{{board.data.name}}</small>
                         </h3>
                         <div class="box-tools pull-right">
-
+                            <a href="{{route('boards.{board}.tasks.create', [$board->uuid])}}" class="btn btn-sm btn-primary">Crear Tarea</a>
                         </div>
                     </div>
                     <div class="box-body">
@@ -28,7 +28,7 @@
                     </div>
                     <div class="box-footer">
                         @can('editBoard', $board)
-                            <a href="{{route('tasks.boards.edit', $board->uuid)}}" class="btn btn-primary">Editar tablero</a>
+                            <a href="{{route('boards.edit', $board->uuid)}}" class="btn btn-primary">Editar tablero</a>
                         @endcan
                     </div>
                 </div>
@@ -63,8 +63,15 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <h3>Buscador de tareas</h3>
                 <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            Buscador de tareas
+                        </h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        </div>
+                    </div>
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-4">
@@ -105,7 +112,7 @@
                             Tareas
                         </h3>
                         <div class="box-tools pull-right">
-
+                            <a href="{{route('boards.{board}.tasks.create', [$board->uuid])}}" class="btn btn-sm btn-primary">Crear Tarea</a>
                         </div>
                     </div>
                     <div class="box-body">
