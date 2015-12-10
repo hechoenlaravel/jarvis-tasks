@@ -48,7 +48,7 @@ class TaskTransformer extends TransformerAbstract
                 'formatted' => $task->updated_at->format('m/d/Y h:i A')
             ],
             'links' => [
-                'self' => route('tasks.boards.{board}.tasks.show', [$task->board->uuid, $task->uuid])
+                'self' => route('boards.{board}.tasks.show', [$task->board->uuid, $task->uuid])
             ]
         ];
     }
