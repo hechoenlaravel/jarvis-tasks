@@ -78,7 +78,7 @@ class ConfigController extends Controller{
      */
     public function edit(FlowForm $form, $id)
     {
-        $form->setModule('tasks')->setFlow($id)->setReturnBaseUrl('flows');
+        $form->setModule('tasks')->setFlow($id)->setReturnBaseUrl('tasks/flows');
         $view = $form->render();
         return view('tasks::config.form', compact('view'));
     }
